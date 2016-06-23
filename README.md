@@ -2,6 +2,8 @@
 
 I love static site generators. I also love the command line. With this project, I aim to make the former a smoother experience on the latter.
 
+![example](./docs/example.gif)
+
 ## Motivation and state of the project
 
 For several months, I used [hexo](https://hexo.io) for generating a static blog. Just dropping markdown files in folders and generating a blog out of it is great, but when I wanted to edit existing files, it got a little annoying sometimes to have to look for them on the command line.
@@ -117,5 +119,5 @@ clg edit app -d scripts -t js
 ## Todo
 
 * implement more commands - `rename`, `delete`, `new`
-* allow searching and filtering on metadata & file content
+* allow searching and filtering on file content
 * tests
