@@ -1,0 +1,31 @@
+{
+  "name": "clg",
+  "version": "0.1.0",
+  "description": "Command-line goodness for static site generators and more",
+  "main": "index.js",
+  "bin": {
+    "clg": "./bin/clg.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint index.js lib/**/*.js bin/clg.js"
+  },
+  "keywords": [
+    "clg",
+    "metalsmith",
+    "hexo",
+    "jekyll",
+    "wintersmith",
+    "edit"
+  ],
+  "author": "Gregory Scheerlinck <gregory.scheerlinck@gmail.com> (https://gregjs.com)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "inquirer": "^1.0.3",
+    "minimist": "^1.2.0",
+    "open": "0.0.5",
+    "shelljs": "^0.7.0",
+    "text-table": "^0.2.0"
+  }
+}

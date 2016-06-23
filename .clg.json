@@ -1,0 +1,19 @@
+{
+  "sourceDirs": [
+    "src",
+    "source",
+    "_posts",
+    "blog"
+  ],
+  "types": [
+    "md",
+    "markdown"
+  ],
+  "supported": [
+    "hexo",
+    "jekyll",
+    "metalsmith",
+    "octopress",
+    "wintersmith"
+  ]
+}
