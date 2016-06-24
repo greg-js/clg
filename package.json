@@ -7,7 +7,7 @@
     "clg": "./bin/clg.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node_modules/mocha/bin/mocha",
     "lint": "eslint index.js lib/**/*.js bin/clg.js"
   },
   "keywords": [
@@ -28,5 +28,9 @@
     "open": "0.0.5",
     "shelljs": "^0.7.0",
     "text-table": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
   }
 }
