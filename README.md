@@ -4,17 +4,19 @@ I love static site generators. I also love the command line. With this project, 
 
 ![example](./docs/example.gif)
 
-## Motivation and state of the project
+## tl;dr
 
-For several months, I used [hexo](https://hexo.io) for generating a static blog. Just dropping markdown files in folders and generating a blog out of it is great, but when I wanted to edit existing files, it got a little annoying sometimes to have to look for them on the command line.
+- `clg` only works in directories that are checked into `git` (it's fine if your git repo is local-only) and are associated with a static site generator.
 
-I was constantly just opening `vim` and using file search plugins to find my posts and that didn't feel right. So I wrote [hexo-cli-extras](https://github.com/greg-js/hexo-cli-extras), which plugged into the hexo database and enhanced (imo) the command-line blogging experience.
+- `clg edit` gives you a menu with all markdown (configuration possible) in the project's `source` directories (again, configuration possible)
 
-The other day I wanted to play with [metalsmith](https://github.com/metalsmith/metalsmith), but I found myself sorely missing my hexo plugin. So I just wrote a [simpler, filesystem-based version of it for metalsmith](https://github.com/greg-js/metalsmith-hammer). But then I realized all static generators kind of work in the same way. If I'm desperate for this kind of feature, then I'm sure other people out there might like it. Hence this package.
+- select a file to open it in your `$EDITOR`. If you don't have an `$EDITOR` environment variable or run your query with `-g`/`--gui`, it'll open in a GUI editor instead
 
-I only started writing this yesterday so the project is obviously still in its early stages. But the basic feature of editing static files on the command-line works. I've tested it briefly on `hexo`, `jekyll`, `metalsmith`, `octopress` and `wintersmith`, but there's no reason why it would fail in other Node or Ruby based static site generators as long as you configure the settings right.
+- Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir (see below for examples)
 
-If you wanted to, you could even place a `.clg.json` file in any project root and change the settings to use it for editing `js` or `less` or any other files using this approach. Still, the main goal is smooth management of static site files.
+- Filter your clg queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Wrap the search in double quotes to do a search for `/search term/` instead.
+
+- Run a search query with the `-k` or `--apropos` flag to scan your posts' contents instead of just the titles/paths
 
 ## Installation
 
@@ -26,23 +28,17 @@ This is a global package and you only need to install it once.
 
 Read [this](https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md) or install [nvm](https://github.com/creationix/nvm) if you find you need `sudo`.
 
-## tl;dr
+## Motivation and state of the project
 
-`clg` only works in directories that are checked into `git` (it's fine if your git repo is local-only) and are associated with a static site generator.
+For several months, I used [hexo](https://hexo.io) for generating a static blog. Just dropping markdown files in folders and generating a blog out of it is great, but when I wanted to edit existing files, it got a little annoying sometimes to have to look for them on the command line.
 
-Running `clg edit` anywhere within such a git repo will give you a list of all markdown files in the `./src` and/or `./source` directories. Select one and it will open in your $EDITOR. If you don't have this environment variable or if you run `clg edit` with `-g`/`--gui`, the file will open in the associated GUI program instead (ie, Atom or Sublime or whatever).
+I was constantly just opening `vim` and using file search plugins to find my posts and that didn't feel right. So I wrote [hexo-cli-extras](https://github.com/greg-js/hexo-cli-extras), which plugged into the hexo database and enhanced (imo) the command-line blogging experience.
 
-Renamed your `src` directory? Use the `-s`/`--source` option or drop a `.clg.json` file in your project root dir and put this in it:
+The other day I wanted to play with [metalsmith](https://github.com/metalsmith/metalsmith), but I found myself sorely missing my hexo plugin. So I just wrote a [simpler, filesystem-based version of it for metalsmith](https://github.com/greg-js/metalsmith-hammer). But then I realized all static generators kind of work in the same way. If I'm desperate for this kind of feature, then I'm sure other people out there might like it. Hence this package.
 
-```
-{
-  "sourceDirs": [ "your_source_directory" ]
-}
-```
+I only started writing this yesterday so the project is obviously still in its early stages. But the basic feature of editing static files on the command-line works. I've tested it briefly on `hexo`, `jekyll`, `metalsmith`, `octopress` and `wintersmith`, but there's no reason why it would fail in other Node or Ruby based static site generators as long as you configure the settings right.
 
-Not writing in markdown? Add `"types": "your_favorite_file_extension"` (strings overwrite the default settings, arrays concatenate with the defaults) to `.clg.json` or use the `type` option on the command-line.
-
-Filter your clg queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Only care about files in your `posts` collection? Just add `-d posts` to your query (`--dir` or `--directory works too`).
+If you wanted to, you could even place a `.clg.json` file in any project root and change the settings to use it for editing `js` or `less` or any other files using this approach. Still, the main goal is smooth management of static site files.
 
 ## `clg edit`
 
@@ -105,12 +101,14 @@ Fine-tune your query by using any or all of the following:
 - `-s`/`--source`: explicitly specify a single source directory
 - `-d`/`--dir`/`--directory`: you probably have subfolders in your source director{y,ies}. Select only a specific subdirectory by using this option
 - `-t`/`--type`: specify a file extension. In effect this overwrites your `types` for a single query
+- `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
 
 Examples:
 
 ```
 clg edit
 clg edit cool post
+clg edit great content -k
 clg edit -d articles
 clg edit -t html
 clg edit app -d scripts -t js
@@ -119,5 +117,4 @@ clg edit app -d scripts -t js
 ## Todo
 
 * implement more commands - `rename`, `delete`, `new`
-* allow searching and filtering on file content
 * tests

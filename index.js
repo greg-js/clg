@@ -19,7 +19,8 @@ var defaults = {
     'help',
     'version',
     'edit',
-    'gui'
+    'gui',
+    'apropos'
   ],
   alias: {
     h: 'help',
@@ -29,13 +30,15 @@ var defaults = {
     g: 'gui',
     d: 'dir',
     directory: 'dir',
-    s: 'source'
+    s: 'source',
+    k: 'apropos'
   },
   default: {
     help: false,
     version: false,
     edit: false,
     gui: false,
+    apropos: false,
     dir: null,
     type: null,
     source: null
