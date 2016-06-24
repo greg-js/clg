@@ -2,8 +2,8 @@
 var expect = require('chai').expect;
 var path = require('path');
 
-describe('helper functions', function() {
-  describe('get-root', function() {
+describe('helper functions >', function() {
+  describe('get-root >', function() {
 
     var getRoot = require('../lib/helpers/get-root');
     var realRoot = path.resolve(process.cwd());
@@ -15,7 +15,7 @@ describe('helper functions', function() {
     });
   });
 
-  describe('format-date', function() {
+  describe('format-date >', function() {
 
     var formatDate = require('../lib/helpers/format-date');
     var christmas = new Date('2016-12-25 00:00:00');
@@ -29,7 +29,7 @@ describe('helper functions', function() {
     });
   });
 
-  describe('is-valid-path', function() {
+  describe('is-valid-path >', function() {
 
     var isValidPath = require('../lib/helpers/is-valid-path');
 
@@ -41,6 +41,93 @@ describe('helper functions', function() {
     it('should detect invalid paths', function() {
       expect(isValidPath('/this/cant/possibly/be/valid')).to.be.false;
       expect(isValidPath('neither/can/this')).to.be.false;
+    });
+  });
+
+  describe('filters >', function() {
+
+    var fixtures = require('./fixtures').filters;
+    var itemPaths = fixtures.itemPaths;
+    var itemObjects = fixtures.itemObjects;
+
+    describe('filter-on-types >', function() {
+
+      var filterOnTypes = require('../lib/helpers/filters').filterOnTypes;
+
+      it('should filter with both string, comma-separated string and array filters', function() {
+        expect(filterOnTypes(itemPaths, 'md')).to.be.an('array');
+        expect(filterOnTypes(itemPaths, 'html')).to.be.an('array');
+        expect(filterOnTypes(itemPaths, 'md').length).to.equal(2);
+        expect(filterOnTypes(itemPaths, ['md', 'markdown']).length).to.equal(3);
+        expect(filterOnTypes(itemPaths, 'md,markdown').length).to.equal(3);
+        expect(filterOnTypes(itemPaths, ['md', 'markdown'])[0]).to.equal('/this/is/a/path/one.md');
+      });
+
+      it('should accept any kind of filter', function() {
+        expect(filterOnTypes(itemPaths, 'js').length).to.equal(2);
+        expect(filterOnTypes(itemPaths, ['js'])[0]).to.equal('/this/is/a/path/five.js');
+        expect(filterOnTypes(itemPaths, ['js', 'ejs', 'jsx']).length).to.equal(4);
+      });
+
+      it('should return all files when not given a filter at all', function() {
+        expect(filterOnTypes(itemPaths).length).to.equal(8);
+      });
+    });
+
+    describe('filter-on-dirs >', function() {
+
+      var filterOnDirs = require('../lib/helpers/filters').filterOnDirs;
+
+      it('should throw an error when passed in a non-array for source or dir', function() {
+        expect(filterOnDirs.bind(null, itemPaths, 'source', 'dir')).to.throw(/pass in arrays/);
+        expect(filterOnDirs.bind(null, itemPaths, 'source', ['dir'])).to.throw(/pass in arrays/);
+        expect(filterOnDirs.bind(null, itemPaths, ['source'], 'dir')).to.throw(/pass in arrays/);
+        expect(filterOnDirs.bind(null, itemPaths, '', '')).to.throw(/pass in arrays/);
+        expect(filterOnDirs.bind(null, itemPaths)).to.throw(/pass in arrays/);
+      });
+
+      it('should filter on single & multiple sources, dirs and combinations', function() {
+        expect(filterOnDirs(itemPaths, ['some'], [])).to.be.an('array');
+        expect(filterOnDirs(itemPaths, ['some'], []).length).to.equal(4);
+        expect(filterOnDirs(itemPaths, ['some'], ['dir']).length).to.equal(2);
+        expect(filterOnDirs(itemPaths, ['a', 'some'], []).length).to.equal(8);
+        expect(filterOnDirs(itemPaths, ['some'], ['dir', 'path']).length).to.equal(4);
+        expect(filterOnDirs(itemPaths, ['not'], ['dir', 'path']).length).to.equal(0);
+        expect(filterOnDirs(itemPaths, ['a', 'some'], ['not']).length).to.equal(0);
+        expect(filterOnDirs(itemPaths, ['is/a'], ['path']).length).to.equal(2);
+      });
+    });
+
+    describe('filter-on-search-terms >', function() {
+
+      var filterOnSearchTerms = require('../lib/helpers/filters').filterOnSearchTerms;
+
+      it('should throw an error when passed in a non-array for search terms', function() {
+        expect(filterOnSearchTerms.bind(null, itemObjects, 'test', false)).to.throw(/pass in an array/);
+        expect(filterOnSearchTerms.bind(null, itemObjects, undefined, false)).to.throw(/pass in an array/);
+      });
+
+      it('should filter on title if there is a title', function() {
+        expect(filterOnSearchTerms(itemObjects, ['title'])).to.be.an('array');
+        expect(filterOnSearchTerms(itemObjects, ['second']).length).to.equal(1);
+        expect(filterOnSearchTerms(itemObjects, ['this']).length).to.equal(2);
+      });
+
+      it('should use the fileName property if there is no title', function() {
+        expect(filterOnSearchTerms(itemObjects, ['frontmatter']).length).to.equal(1);
+        expect(filterOnSearchTerms(itemObjects, ['post']).length).to.equal(3);
+      });
+
+      it('should support multiple search terms and regexes containing spaces', function() {
+        expect(filterOnSearchTerms(itemObjects, ['this is']).length).to.equal(1);
+        expect(filterOnSearchTerms(itemObjects, ['this', 'is']).length).to.equal(2);
+        expect(filterOnSearchTerms(itemObjects, ['this', 'post']).length).to.equal(2);
+      });
+
+      it('should search in the body as well if passed the apropos options', function() {
+        expect(filterOnSearchTerms(itemObjects, ['content'], true).length).to.equal(2);
+        expect(filterOnSearchTerms(itemObjects, ['this'], true).length).to.equal(3);
+      });
     });
   });
 });
