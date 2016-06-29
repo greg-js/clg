@@ -27,6 +27,7 @@
     "minimist": "^1.2.0",
     "open": "0.0.5",
     "shelljs": "^0.7.0",
+    "simple-slug": "^1.0.1",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
