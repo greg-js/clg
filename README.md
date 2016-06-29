@@ -10,7 +10,9 @@ I love static site generators. I also love the command line. With this project, 
 
 - `clg edit` gives you a menu with all markdown (configuration possible) in the project's `source` directories (again, configuration possible)
 
-- select a file to open it in your `$EDITOR`. If you don't have an `$EDITOR` environment variable or run your query with `-g`/`--gui`, it'll open in a GUI editor instead
+- Select a file to open it in your `$EDITOR`. If you don't have an `$EDITOR` environment variable or run your query with `-g`/`--gui`, it'll open in a GUI editor instead
+
+- `clg new` drops a new file into a pre-configured folder, fills it with some metadata and then opens it in your `$EDITOR` or GUI editor. See below for configuration.
 
 - Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir (see below for examples)
 
@@ -28,26 +30,78 @@ This is a global package and you only need to install it once.
 
 Read [this](https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md) or install [nvm](https://github.com/creationix/nvm) if you find you need `sudo`.
 
-## Motivation and state of the project
+## Usage
 
-For several months, I used [hexo](https://hexo.io) for generating a static blog. Just dropping markdown files in folders and generating a blog out of it is great, but when I wanted to edit existing files, it got a little annoying sometimes to have to look for them on the command line.
+### `clg edit`
 
-I was constantly just opening `vim` and using file search plugins to find my posts and that didn't feel right. So I wrote [hexo-cli-extras](https://github.com/greg-js/hexo-cli-extras), which plugged into the hexo database and enhanced (imo) the command-line blogging experience.
-
-The other day I wanted to play with [metalsmith](https://github.com/metalsmith/metalsmith), but I found myself sorely missing my hexo plugin. So I just wrote a [simpler, filesystem-based version of it for metalsmith](https://github.com/greg-js/metalsmith-hammer). But then I realized all static generators kind of work in the same way. If I'm desperate for this kind of feature, then I'm sure other people out there might like it. Hence this package.
-
-I only started writing this yesterday so the project is obviously still in its early stages. But the basic feature of editing static files on the command-line works. I've tested it briefly on `hexo`, `jekyll`, `metalsmith`, `octopress` and `wintersmith`, but there's no reason why it would fail in other Node or Ruby based static site generators as long as you configure the settings right.
-
-If you wanted to, you could even place a `.clg.json` file in any project root and change the settings to use it for editing `js` or `less` or any other files using this approach. Still, the main goal is smooth management of static site files.
-
-## `clg edit`
-
-The core and for now only feature of `clg` is `edit`. This is what happens when you run `clg edit` somewhere in your file system:
+The core feature of `clg` is `edit`. This is what happens when you run `clg edit` somewhere in your file system:
 
 - The root directory of the project is identified and checked for the inclusion of a static site generator
 - If it exists, a project-specific `.clg.json` overwrites the default configuration settings (see below)
 - All files that match both your query and the configuration settings are displayed in a menu and you choose the one you want to edit
 - The selected file opens in your `$EDITOR` or associated GUI program
+
+#### `edit` options
+
+`clg edit` will present you with a list of *all* files located somewhere within the `sourceDirs` dirs that match the `types`.
+
+Fine-tune your query by using any or all of the following:
+
+- regular expressions: every word that isn't an option will be treated as a regular expression to filter the files on. Right now, just the filenames are taken into consideration
+- `-s`/`--source`: explicitly specify a single source directory
+- `-d`/`--dir`/`--directory`: you probably have subfolders in your source director{y,ies}. Select only a specific subdirectory by using this option
+- `-t`/`--type`: specify a file extension. In effect this overwrites your `types` for a single query
+- `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
+
+Examples:
+
+```
+clg edit
+clg edit cool post
+clg edit great content -k
+clg edit -d articles
+clg edit -t html
+clg edit app -d scripts -t js
+```
+
+### `clg new`
+
+Here's what happens when you run `clg new`:
+
+- Root dir is identified and checked, and a project-specific `.clg.json` is read to configure the possible `new` commands (see below).
+- If a matching asset is found in the config, a new file with a slugized filename will be created in the right directory, and filled with some metadata.
+- The new file is then opened with your `$EDITOR` or associated GUI program.
+
+#### `new` options
+
+Right now, no command line options have been implemented for `new`, but it does read your project-specific `.clg.json` file, located in the root directory of your project. A `newDirs` options will be looked for, and this should hold the options for creating new `posts`, `drafts` or whatever. Here's an example:
+
+```
+{
+  "newDirs": {
+    "post": {
+      "dir": "source/_posts",
+      "metadata": {
+        "category": "blog",
+        "tags": ""
+      },
+      "assetDir": "true",
+      "type": "md"
+    },
+    "draft": "source/_drafts"
+  }
+}
+```
+
+Adding the above to a project's root dir will allow you to do a `clg new post "Hello World"`. A `hello-world.md` file will then get dropped into `./source/_posts`. It will contain some `yaml` metadata with a `title` (Hello World) and a date property, as well as `category: blog` and `tags: `. It will also create an asset folder (a folder by the same name as the slug to hold images and the like). Finally, the new file will open automatically in your favorite editor.
+
+As for `clg new draft`, it will drop a new file with `title` and `date` metadata and stick to the defaults. In other words, if you just put a string, `clg` will interpret it as the `dir` for the asset and use defaults.
+
+Options:
+- **dir**: the location of the folder where you want to drop your new files
+- **metadata**: some extra metadata you might want to add on creation
+- **assetDir**: (boolean, defaults to false) if true, an empty directory will be created in `dir` by the same name as the slugized title
+- **type**: (string, defaults to 'md') a file extension for your new file
 
 ### Default settings and `.clg.json`
 
@@ -81,40 +135,34 @@ You can overwrite (use a string, separated by whitespace or commas) or add to (u
 - `types`: The filetypes to look for
 - `supported`: `clg` will error out unless it detects any of these in the project's `package.json` or `Gemfile.lock`
 
-Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files:
+Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files. It will also give you a `clg new article <title>` command to drop a new file in `./blog/posts`.
 
 ```
 {
   "sourceDirs": "layouts",
   "types": [ "ejs" ],
-  "supported": ""
+  "supported": "",
+  "newDirs": {
+    "article": "blog/posts"
+  }
 }
 ```
 
-### `edit` options
+## Motivation and state of the project
 
-As noted earlier, `clg edit` will present you with a list of *all* files located somewhere within the `sourceDirs` dirs that match the `types`.
+For several months, I used [hexo](https://hexo.io) for generating a static blog. Just dropping markdown files in folders and generating a blog out of it is great, but when I wanted to edit existing files, it got a little annoying sometimes to have to look for them on the command line.
 
-Fine-tune your query by using any or all of the following:
+I was constantly just opening `vim` and using file search plugins to find my posts and that didn't feel right. So I wrote [hexo-cli-extras](https://github.com/greg-js/hexo-cli-extras), which plugged into the hexo database and enhanced (imo) the command-line blogging experience.
 
-- regular expressions: every word that isn't an option will be treated as a regular expression to filter the files on. Right now, just the filenames are taken into consideration
-- `-s`/`--source`: explicitly specify a single source directory
-- `-d`/`--dir`/`--directory`: you probably have subfolders in your source director{y,ies}. Select only a specific subdirectory by using this option
-- `-t`/`--type`: specify a file extension. In effect this overwrites your `types` for a single query
-- `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
+The other day I wanted to play with [metalsmith](https://github.com/metalsmith/metalsmith), but I found myself sorely missing my hexo plugin. So I just wrote a [simpler, filesystem-based version of it for metalsmith](https://github.com/greg-js/metalsmith-hammer). But then I realized all static generators kind of work in the same way. If I'm desperate for this kind of feature, then I'm sure other people out there might like it. Hence this package.
 
-Examples:
+The project is still in its early stages, but the basic feature of editing static files on the command-line works, and so does creating new files. I've tested it briefly on `hexo`, `jekyll`, `metalsmith`, `octopress` and `wintersmith`, but there's no reason why it would fail in other Node or Ruby based static site generators as long as you configure the settings right.
 
-```
-clg edit
-clg edit cool post
-clg edit great content -k
-clg edit -d articles
-clg edit -t html
-clg edit app -d scripts -t js
-```
+If you wanted to, you could even place a `.clg.json` file in any project root and change the settings to use it for editing `js` or `less` or any other files using this approach. Still, the main goal is smooth management of static site files.
 
 ## Todo
 
-* implement more commands - `rename`, `delete`, `new`
+* implement more commands - `rename`, `delete`
+* allow searching on metadata (tags, categories, dates) for editing
+* allow metadata configuration from the command line
 * tests
