@@ -46,7 +46,7 @@ describe('helper functions >', function() {
 
   describe('filters >', function() {
 
-    var fixtures = require('./fixtures').filters;
+    var fixtures = require('./fixtures/fixtures').filters;
     var itemPaths = fixtures.itemPaths;
     var itemObjects = fixtures.itemObjects;
 
@@ -128,6 +128,34 @@ describe('helper functions >', function() {
         expect(filterOnSearchTerms(itemObjects, ['content'], true).length).to.equal(2);
         expect(filterOnSearchTerms(itemObjects, ['this'], true).length).to.equal(3);
       });
+    });
+  });
+
+  describe('load-config >', function() {
+
+    var loadConfig = require('../lib/helpers/load-config');
+    var customRootDir = './test/fixtures';
+    var defaultCase = loadConfig('./', require('../.clg.json'));
+    var customCase = loadConfig(customRootDir, require('../.clg.json'));
+
+    it('should load the default config if no custom one is found in the rootDir', function() {
+      expect(defaultCase).to.be.an('object');
+      expect(defaultCase.sourceDirs).to.be.an('array');
+      expect(defaultCase.supported).to.be.an('array');
+      expect(defaultCase.types).to.be.an('array');
+      expect(defaultCase.types[0]).to.equal('md');
+    });
+
+    it('should concatenate custom arrayed options with the defaults', function() {
+      expect(customCase).to.be.an('object');
+      expect(customCase.types).to.be.an('array');
+      expect(customCase.types.length).to.equal(4);
+    });
+
+    it('should replace the defaults with custom comma-separated string options', function() {
+      expect(customCase).to.be.an('object');
+      expect(customCase.sourceDirs).to.be.an('array');
+      expect(customCase.sourceDirs.length).to.equal(2);
     });
   });
 });

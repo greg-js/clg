@@ -1,0 +1,8 @@
+{
+  "sourceDirs": "foo,bar",
+  "types": [
+    "js",
+    "css"
+  ],
+  "supported": ""
+}
