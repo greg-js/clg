@@ -1,24 +1,28 @@
 # clg - command line goodness
 
-I love static site generators. I also love the command line. With this project, I aim to make the former a smoother experience on the latter.
+I love static site generators. I also love the command line. This project offers a set of useful command-line tools for developers, maintainers and writers of statically generated websites.
 
 ![example](./docs/example.gif)
 
 ## tl;dr
 
-- `clg` only works in directories that are checked into `git` (it's fine if your git repo is local-only) and are associated with a static site generator.
+- `clg edit` gives you a menu with all markdown files in the project's `source` directories (see below for configuration)
 
-- `clg edit` gives you a menu with all markdown (configuration possible) in the project's `source` directories (again, configuration possible)
+- Select a file in the menu (arrows or vim-style `j`/`k`) to open it in your `$EDITOR`. If you don't have an `$EDITOR` environment variable or run your query with `-g`/`--gui`, it'll open in a GUI editor instead
 
-- Select a file to open it in your `$EDITOR`. If you don't have an `$EDITOR` environment variable or run your query with `-g`/`--gui`, it'll open in a GUI editor instead
+- `clg new` drops a new file into a pre-configured folder, fills it with some metadata and then opens it in your `$EDITOR` or GUI editor
 
-- `clg new` drops a new file into a pre-configured folder, fills it with some metadata and then opens it in your `$EDITOR` or GUI editor. See below for configuration.
+- Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir
 
-- Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir (see below for examples)
-
-- Filter your clg queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Wrap the search in double quotes to do a search for `/search term/` instead.
+- Filter your `clg` queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Wrap the search in double quotes to do a search for `/search term/` instead.
 
 - Run a search query with the `-k` or `--apropos` flag to scan your posts' contents instead of just the titles/paths
+
+## Requirements
+
+- Node v0.12 or above.
+- npm v2.15 or above.
+- A project checked into `git` (just locally is fine) with statically generated content
 
 ## Installation
 
@@ -36,7 +40,7 @@ Read [this](https://github.com/sindresorhus/guides/blob/master/npm-global-withou
 
 The core feature of `clg` is `edit`. This is what happens when you run `clg edit` somewhere in your file system:
 
-- The root directory of the project is identified and checked for the inclusion of a static site generator
+- The root directory of the project is identified
 - If it exists, a project-specific `.clg.json` overwrites the default configuration settings (see below)
 - All files that match both your query and the configuration settings are displayed in a menu and you choose the one you want to edit
 - The selected file opens in your `$EDITOR` or associated GUI program
