@@ -1,0 +1,20 @@
+{
+  "newDirs": {
+    "foo": "foo/bar",
+    "bar": {
+      "dir": "bar/baz"
+    },
+    "javascript": {
+      "dir": "baz",
+      "metadata": {
+        "category": "javascript",
+        "tags": ""
+      },
+      "type": "js"
+    },
+    "bam": {
+      "dir": "bam/foo",
+      "assetDir": "true"
+    }
+  }
+}

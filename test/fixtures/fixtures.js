@@ -45,3 +45,8 @@ exports.filters = {
     }
   ]
 };
+
+exports.rootDir = {
+  with: './test/fixtures/with-clg-json',
+  without: './test/fixtures/without-clg-json'
+};
