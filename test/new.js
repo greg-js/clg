@@ -20,7 +20,6 @@ describe('new', function() {
     });
 
     it('should log a message and return false when called with a non-configured asset', function() {
-      console.log(newDirs);
       expect(doNew(rootDir, newDirs, { _: ['foo'] })).to.be.false;
     });
 
@@ -77,6 +76,7 @@ after(function() {
   var rootDir = path.resolve(require('./fixtures/fixtures').rootDir.with);
   rm('-rf',
      path.resolve(rootDir, 'foo'),
+     path.resolve(rootDir, 'bar'),
      path.resolve(rootDir, 'baz'),
      path.resolve(rootDir, 'bam')
   );
