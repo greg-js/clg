@@ -10,7 +10,7 @@
         "category": "javascript",
         "tags": ""
       },
-      "type": "js"
+      "extension": "js"
     },
     "bam": {
       "dir": "bam/foo",

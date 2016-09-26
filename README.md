@@ -49,14 +49,14 @@ The core feature of `clg` is `edit`. This is what happens when you run `clg edit
 
 #### `edit` options
 
-`clg edit` will present you with a list of *all* files located somewhere within the `sourceDirs` dirs that match the `types`.
+`clg edit` will present you with a list of *all* files located somewhere within the `sourceDirs` dirs that match the `extension`s.
 
 Fine-tune your query by using any or all of the following:
 
 - regular expressions: every word that isn't an option will be treated as a regular expression to filter the files on. Right now, just the filenames are taken into consideration
 - `-s`/`--source`: explicitly specify a single source directory
 - `-d`/`--dir`/`--directory`: you probably have subfolders in your source director{y,ies}. Select only a specific subdirectory by using this option
-- `-t`/`--type`: specify a file extension. In effect this overwrites your `types` for a single query
+- `-ext`/`--extension`: specify a file extension. In effect this overwrites your `extensions` for a single query
 - `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
 
 Examples:
@@ -92,7 +92,7 @@ Right now, no command line options have been implemented for `new`, but it does 
         "tags": ""
       },
       "assetDir": "true",
-      "type": "md"
+      "extension": "md"
     },
     "draft": "source/_drafts"
   }
@@ -107,7 +107,7 @@ Options:
 - **dir**: the location of the folder where you want to drop your new files
 - **metadata**: some extra metadata you might want to add on creation
 - **assetDir**: (boolean, defaults to false) if true, an empty directory will be created in `dir` by the same name as the slugized title
-- **type**: (string, defaults to 'md') a file extension for your new file
+- **extension**: (string, defaults to 'md') a file extension for your new file
 
 ### `clg rename`
 
@@ -136,7 +136,7 @@ These are currently the default settings:
     "_posts",
     "blog"
   ],
-  "types": [
+  "extensions": [
     "md",
     "markdown"
   ],
@@ -153,7 +153,7 @@ These are currently the default settings:
 You can overwrite (use a string, separated by whitespace or commas) or add to (use an array) these default settings on a project-by-project basis by including a `.clg.json` file in your project's root directory.
 
 - `sourceDirs`: An array (or comma-or-whitespace separated string) of top-level directories you want to edit files in. For example, you may want to add `layouts` or `partials` here if you want to use `clg` to edit files in those directories.
-- `types`: The filetypes to look for
+- `extensions`: The filetypes to look for
 - `supported`: `clg` will error out unless it detects any of these in the project's `package.json` or `Gemfile.lock`
 
 Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files. It will also give you a `clg new article <title>` command to drop a new file in `./blog/posts`.
@@ -161,7 +161,7 @@ Here's an example of a project's `.clg.json`, which will make it work on any Nod
 ```
 {
   "sourceDirs": "layouts",
-  "types": [ "ejs" ],
+  "extensions": [ "ejs" ],
   "supported": "",
   "newDirs": {
     "article": "blog/posts"

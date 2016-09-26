@@ -50,27 +50,27 @@ describe('helper functions >', function() {
     var itemPaths = fixtures.itemPaths;
     var itemObjects = fixtures.itemObjects;
 
-    describe('filter-on-types >', function() {
+    describe('filter-on-extensions >', function() {
 
-      var filterOnTypes = require('../lib/helpers/filters').filterOnTypes;
+      var filterOnExtensions = require('../lib/helpers/filters').filterOnExtensions;
 
       it('should filter with both string, comma-separated string and array filters', function() {
-        expect(filterOnTypes(itemPaths, 'md')).to.be.an('array');
-        expect(filterOnTypes(itemPaths, 'html')).to.be.an('array');
-        expect(filterOnTypes(itemPaths, 'md').length).to.equal(2);
-        expect(filterOnTypes(itemPaths, ['md', 'markdown']).length).to.equal(3);
-        expect(filterOnTypes(itemPaths, 'md,markdown').length).to.equal(3);
-        expect(filterOnTypes(itemPaths, ['md', 'markdown'])[0]).to.equal('/this/is/a/path/one.md');
+        expect(filterOnExtensions(itemPaths, 'md')).to.be.an('array');
+        expect(filterOnExtensions(itemPaths, 'html')).to.be.an('array');
+        expect(filterOnExtensions(itemPaths, 'md').length).to.equal(2);
+        expect(filterOnExtensions(itemPaths, ['md', 'markdown']).length).to.equal(3);
+        expect(filterOnExtensions(itemPaths, 'md,markdown').length).to.equal(3);
+        expect(filterOnExtensions(itemPaths, ['md', 'markdown'])[0]).to.equal('/this/is/a/path/one.md');
       });
 
       it('should accept any kind of filter', function() {
-        expect(filterOnTypes(itemPaths, 'js').length).to.equal(2);
-        expect(filterOnTypes(itemPaths, ['js'])[0]).to.equal('/this/is/a/path/five.js');
-        expect(filterOnTypes(itemPaths, ['js', 'ejs', 'jsx']).length).to.equal(4);
+        expect(filterOnExtensions(itemPaths, 'js').length).to.equal(2);
+        expect(filterOnExtensions(itemPaths, ['js'])[0]).to.equal('/this/is/a/path/five.js');
+        expect(filterOnExtensions(itemPaths, ['js', 'ejs', 'jsx']).length).to.equal(4);
       });
 
       it('should return all files when not given a filter at all', function() {
-        expect(filterOnTypes(itemPaths).length).to.equal(8);
+        expect(filterOnExtensions(itemPaths).length).to.equal(8);
       });
     });
 
@@ -142,14 +142,14 @@ describe('helper functions >', function() {
       expect(defaultCase).to.be.an('object');
       expect(defaultCase.sourceDirs).to.be.an('array');
       expect(defaultCase.supported).to.be.an('array');
-      expect(defaultCase.types).to.be.an('array');
-      expect(defaultCase.types[0]).to.equal('md');
+      expect(defaultCase.extensions).to.be.an('array');
+      expect(defaultCase.extensions[0]).to.equal('md');
     });
 
     it('should concatenate custom arrayed options with the defaults', function() {
       expect(customCase).to.be.an('object');
-      expect(customCase.types).to.be.an('array');
-      expect(customCase.types.length).to.equal(4);
+      expect(customCase.extensions).to.be.an('array');
+      expect(customCase.extensions.length).to.equal(4);
     });
 
     it('should replace the defaults with custom comma-separated string options', function() {

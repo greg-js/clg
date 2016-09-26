@@ -30,7 +30,7 @@ var defaults = {
     h: 'help',
     v: 'version',
     e: 'edit',
-    t: 'type',
+    'ext': 'extension',
     g: 'gui',
     d: 'dir',
     directory: 'dir',
@@ -53,7 +53,7 @@ var defaults = {
     apropos: false,
     rename: false,
     dir: null,
-    type: null,
+    extension: null,
     source: null,
     name: null,
     asset: null

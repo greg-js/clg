@@ -1,6 +1,6 @@
 {
   "sourceDirs": "foo,bar",
-  "types": [
+  "extensions": [
     "js",
     "css"
   ],
