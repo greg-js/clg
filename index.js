@@ -12,6 +12,7 @@ if (!isValidProject) {
 
 var doEdit = require('./lib/edit');
 var doNew = require('./lib/new');
+var doRename = require('./lib/rename');
 var doHelp = require('./lib/help');
 var doVersion = require('./lib/version');
 
@@ -22,7 +23,8 @@ var defaults = {
     'edit',
     'gui',
     'apropos',
-    'new'
+    'new',
+    'rename'
   ],
   alias: {
     h: 'help',
@@ -34,7 +36,13 @@ var defaults = {
     directory: 'dir',
     s: 'source',
     k: 'apropos',
-    n: 'new'
+    n: 'new',
+    r: 'rename',
+    nn: 'name',
+    nm: 'name',
+    'new-name': 'name',
+    na: 'asset',
+    'new-asset': 'asset'
   },
   default: {
     help: false,
@@ -43,9 +51,12 @@ var defaults = {
     new: false,
     gui: false,
     apropos: false,
+    rename: false,
     dir: null,
     type: null,
-    source: null
+    source: null,
+    name: null,
+    asset: null
   }
 };
 
@@ -61,6 +72,8 @@ if (/^he?l?p?$/i.test(firstArg)) {
   options.edit = options.e = true;
 } else if (/^ne?w?$/i.test(firstArg)) {
   options.new = options.n = true;
+} else if (/^r$|^rename$/i.test(firstArg)) {
+  options.rename = options.r = true;
 }
 options._ = options._.slice(1);
 
@@ -71,6 +84,8 @@ if (options.help) {
   doVersion();
 } else if (options.edit) {
   doEdit(rootDir, config, options);
+} else if (options.rename) {
+  doRename(rootDir, config, options);
 } else if (options.new) {
   doNew(rootDir, config.newDirs, options);
 } else {

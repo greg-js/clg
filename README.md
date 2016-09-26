@@ -12,6 +12,8 @@ I love static site generators. I also love the command line. This project offers
 
 - `clg new` drops a new file into a pre-configured folder, fills it with some metadata and then opens it in your `$EDITOR` or GUI editor
 
+- Conveniently search for and rename a file from the command line with `clg rename <search terms> --new-name "The new title"`
+
 - Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir
 
 - Filter your `clg` queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Wrap the search in double quotes to do a search for `/search term/` instead.
@@ -107,6 +109,21 @@ Options:
 - **assetDir**: (boolean, defaults to false) if true, an empty directory will be created in `dir` by the same name as the slugized title
 - **type**: (string, defaults to 'md') a file extension for your new file
 
+### `clg rename`
+
+The `rename` subcommand lets you search for a file using all the filters used in `clg edit`. After selecting a file, you will be presented with a menu, asking you whether you want to rename the title (usually set in the frontmatter), the filesystem path or both.
+
+Options:
+- `--nn`/`--nm`/`--new-name` (required): The new title/name for the file. For renaming the filesystem path, this string will be `slugize`d automatically
+- `--na`/`--new-asset` (optional): Use this if you've set multiple types of posts (such as `post`, `draft`, `page` etc) and you want to change the type
+
+Examples:
+
+```
+clg rename my post --nn "My new title"
+clg rename my draft --nn "A new awesome post" --na "post"
+```
+
 ### Default settings and `.clg.json`
 
 These are currently the default settings:
@@ -166,7 +183,7 @@ If you wanted to, you could even place a `.clg.json` file in any project root an
 
 ## Todo
 
-* implement more commands - `rename`, `delete`
+* implement more commands - `delete`
 * allow searching on metadata (tags, categories, dates) for editing
 * allow metadata configuration from the command line
 * tests
