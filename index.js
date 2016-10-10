@@ -15,6 +15,7 @@ var doNew = require('./lib/new');
 var doRename = require('./lib/rename');
 var doHelp = require('./lib/help');
 var doVersion = require('./lib/version');
+var doDelete = require('./lib/delete');
 
 var defaults = {
   boolean: [
@@ -24,7 +25,8 @@ var defaults = {
     'gui',
     'apropos',
     'new',
-    'rename'
+    'rename',
+    'delete'
   ],
   alias: {
     h: 'help',
@@ -42,7 +44,9 @@ var defaults = {
     nm: 'name',
     'new-name': 'name',
     na: 'asset',
-    'new-asset': 'asset'
+    'new-asset': 'asset',
+    rm: 'delete',
+    remove: 'delete'
   },
   default: {
     help: false,
@@ -52,6 +56,7 @@ var defaults = {
     gui: false,
     apropos: false,
     rename: false,
+    delete: false,
     dir: null,
     extension: null,
     source: null,
@@ -65,15 +70,17 @@ var firstArg = (options._.length) ? options._[0] : null;
 
 // allow cli options without leading dash and rebuild options
 if (/^he?l?p?$/i.test(firstArg)) {
-  options.help = options.h = true;
+  options.help = true;
 } else if (/^ve?r?s?i?o?n?$/i.test(firstArg)) {
-  options.version = options.v = true;
+  options.version = true;
 } else if (/^ed?i?t?$/i.test(firstArg)) {
-  options.edit = options.e = true;
+  options.edit = true;
 } else if (/^ne?w?$/i.test(firstArg)) {
-  options.new = options.n = true;
+  options.new = true;
 } else if (/^r$|^rename$/i.test(firstArg)) {
-  options.rename = options.r = true;
+  options.rename = true;
+} else if (/^delete$|^remove$|rm$/i.test(firstArg)) {
+  options.delete = true;
 }
 options._ = options._.slice(1);
 
@@ -86,6 +93,8 @@ if (options.help) {
   doEdit(rootDir, config, options);
 } else if (options.rename) {
   doRename(rootDir, config, options);
+} else if (options.delete) {
+  doDelete(rootDir, config, options);
 } else if (options.new) {
   doNew(rootDir, config.newDirs, options);
 } else {

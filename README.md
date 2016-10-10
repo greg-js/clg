@@ -14,6 +14,8 @@ I love static site generators. I also love the command line. This project offers
 
 - Conveniently search for and rename a file from the command line with `clg rename <search terms> --new-name "The new title"`
 
+- Search for and delete a file (and, if it's there, its associated asset directory) with `clg delete <search terms>`
+
 - Configuration is set by adding command line options or dropping a `.clg.json` file in your project root dir
 
 - Filter your `clg` queries with regular expressions like this: `clg edit search term`. Now only articles will pop up in the menu that contain `/search/` and `/term/`. Wrap the search in double quotes to do a search for `/search term/` instead.
@@ -22,7 +24,7 @@ I love static site generators. I also love the command line. This project offers
 
 ## Requirements
 
-- Node v0.12 or above.
+- Node v0.12 or above (yep, this runs on ancient Node).
 - npm v2.15 or above.
 - A project checked into `git` (just locally is fine) with statically generated content
 
@@ -122,6 +124,16 @@ Examples:
 ```
 clg rename my post --nn "My new title"
 clg rename my draft --nn "A new awesome post" --na "post"
+```
+
+### `clg delete` (also `clg rm` or `clg remove`)
+
+Search for a file and delete it from the command line. If you have an asset directory (a directory in the same folder with the same name, normally used to host post-specific images), it will be deleted also.
+
+Example:
+
+```
+clg delete my post
 ```
 
 ### Default settings and `.clg.json`
