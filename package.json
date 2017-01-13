@@ -1,6 +1,6 @@
 {
   "name": "clg",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Command-line goodness for static site generators and more",
   "main": "index.js",
   "bugs": {
