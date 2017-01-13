@@ -158,7 +158,8 @@ These are currently the default settings:
     "metalsmith",
     "octopress",
     "wintersmith"
-  ]
+  ],
+  "showDate": true
 }
 ```
 
@@ -167,6 +168,7 @@ You can overwrite (use a string, separated by whitespace or commas) or add to (u
 - `sourceDirs`: An array (or comma-or-whitespace separated string) of top-level directories you want to edit files in. For example, you may want to add `layouts` or `partials` here if you want to use `clg` to edit files in those directories.
 - `extensions`: The filetypes to look for
 - `supported`: `clg` will error out unless it detects any of these in the project's `package.json` or `Gemfile.lock`
+- `showDate`: (boolean, defaults to true) if true, show the date in the display menu
 
 Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files. It will also give you a `clg new article <title>` command to drop a new file in `./blog/posts`.
 

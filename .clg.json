@@ -16,5 +16,6 @@
     "metalsmith",
     "octopress",
     "wintersmith"
-  ]
+  ],
+  "showDate": true
 }
