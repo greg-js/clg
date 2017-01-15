@@ -46,7 +46,11 @@ var defaults = {
     na: 'asset',
     'new-asset': 'asset',
     rm: 'delete',
-    remove: 'delete'
+    remove: 'delete',
+    c: 'category',
+    cat: 'category',
+    t: 'tags',
+    tag: 'tags'
   },
   default: {
     help: false,
@@ -61,7 +65,9 @@ var defaults = {
     extension: null,
     source: null,
     name: null,
-    asset: null
+    asset: null,
+    tags: null,
+    category: null
   }
 };
 

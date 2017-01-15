@@ -53,13 +53,15 @@ The core feature of `clg` is `edit`. This is what happens when you run `clg edit
 
 `clg edit` will present you with a list of *all* files located somewhere within the `sourceDirs` dirs that match the `extension`s.
 
-Fine-tune your query by using any or all of the following:
+Fine-tune your query by using any or all of the following (you may have to wrap a specific term in quotes if it contains spaces):
 
 - regular expressions: every word that isn't an option will be treated as a regular expression to filter the files on. Right now, just the filenames are taken into consideration
 - `-s`/`--source`: explicitly specify a single source directory
 - `-d`/`--dir`/`--directory`: you probably have subfolders in your source director{y,ies}. Select only a specific subdirectory by using this option
 - `-ext`/`--extension`: specify a file extension. In effect this overwrites your `extensions` for a single query
 - `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
+- `-t`/`--tag`/`--tags`: filter on a single tag or a list of comma-separated tags
+- `-c`/`--cat`/`--category`: filter on a category
 
 Examples:
 
@@ -68,8 +70,10 @@ clg edit
 clg edit cool post
 clg edit great content -k
 clg edit -d articles
-clg edit -t html
-clg edit app -d scripts -t js
+clg edit -ext html
+clg edit app -d scripts -ext js
+clg edit cool post -t javascript
+clg edit cool post -t "javascript library" -c javascript
 ```
 
 ### `clg new`
@@ -197,7 +201,5 @@ If you wanted to, you could even place a `.clg.json` file in any project root an
 
 ## Todo
 
-* implement more commands - `delete`
-* allow searching on metadata (tags, categories, dates) for editing
 * allow metadata configuration from the command line
-* tests
+* more tests!!!
