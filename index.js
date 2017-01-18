@@ -50,7 +50,8 @@ var defaults = {
     c: 'category',
     cat: 'category',
     t: 'tags',
-    tag: 'tags'
+    tag: 'tags',
+    f: 'filter'
   },
   default: {
     help: false,
@@ -67,7 +68,8 @@ var defaults = {
     name: null,
     asset: null,
     tags: null,
-    category: null
+    category: null,
+    filter: null
   }
 };
 

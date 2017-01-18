@@ -62,6 +62,7 @@ Fine-tune your query by using any or all of the following (you may have to wrap 
 - `-k`/`--apropos` (boolean): when set, your search terms will test your post's entire body
 - `-t`/`--tag`/`--tags`: filter on a single tag or a list of comma-separated tags
 - `-c`/`--cat`/`--category`: filter on a category
+- `-f`/`--filter`: choose a frontmatter property to include (along with the title) in your searches
 
 Examples:
 
@@ -74,6 +75,7 @@ clg edit -ext html
 clg edit app -d scripts -ext js
 clg edit cool post -t javascript
 clg edit cool post -t "javascript library" -c javascript
+clg edit js -f id
 ```
 
 ### `clg new`
@@ -163,7 +165,8 @@ These are currently the default settings:
     "octopress",
     "wintersmith"
   ],
-  "showDate": true
+  "showDate": true,
+  "filterProp": null
 }
 ```
 
@@ -173,6 +176,7 @@ You can overwrite (use a string, separated by whitespace or commas) or add to (u
 - `extensions`: The filetypes to look for
 - `supported`: `clg` will error out unless it detects any of these in the project's `package.json` or `Gemfile.lock`
 - `showDate`: (boolean, defaults to true) if true, show the date in the display menu
+- `filterProp`: when defined, it includes the value of the `filterProp` frontmatter in your searches (by default, it looks only in the title)
 
 Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files. It will also give you a `clg new article <title>` command to drop a new file in `./blog/posts`.
 
