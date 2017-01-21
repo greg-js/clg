@@ -83,12 +83,12 @@ clg edit js -f id
 Here's what happens when you run `clg new`:
 
 - Root dir is identified and checked, and a project-specific `.clg.json` is read to configure the possible `new` commands (see below).
-- If a matching asset is found in the config, a new file with a slugized filename will be created in the right directory, and filled with some metadata.
+- If a matching asset is found in the config, a new file with a slugized filename will be created in the right directory, and filled with some metadata, passed in from `clg.json` and/or the command line.
 - The new file is then opened with your `$EDITOR` or associated GUI program.
 
 #### `new` options
 
-Right now, no command line options have been implemented for `new`, but it does read your project-specific `.clg.json` file, located in the root directory of your project. A `newDirs` options will be looked for, and this should hold the options for creating new `posts`, `drafts` or whatever. Here's an example:
+`clg` reads your project-specific `.clg.json` file, located in the root directory of your project. A `newDirs` options will be looked for, and this should hold the options for creating new `posts`, `drafts` or whatever. Here's an example:
 
 ```
 {
@@ -108,6 +108,15 @@ Right now, no command line options have been implemented for `new`, but it does 
 ```
 
 Adding the above to a project's root dir will allow you to do a `clg new post "Hello World"`. A `hello-world.md` file will then get dropped into `./source/_posts`. It will contain some `yaml` metadata with a `title` (Hello World) and a date property, as well as `category: blog` and `tags: `. It will also create an asset folder (a folder by the same name as the slug to hold images and the like). Finally, the new file will open automatically in your favorite editor.
+
+You can also pass in metadata on the command line like this:
+
+```
+clg new post "Title of my post" --metadata "category:something,id:12345"
+clg new post "Another Title" -m "foo:bar"
+```
+
+(command-line metadata overwrites `.clg.json` metadata)
 
 As for `clg new draft`, it will drop a new file with `title` and `date` metadata and stick to the defaults. In other words, if you just put a string, `clg` will interpret it as the `dir` for the asset and use defaults.
 
@@ -205,5 +214,7 @@ If you wanted to, you could even place a `.clg.json` file in any project root an
 
 ## Todo
 
-* allow metadata configuration from the command line
-* more tests!!!
+* more tests!!!!!!!!!!!
+* rewrite this stupidly confusing readme
+* finetune command-line metadata input (allow arrays as prop values eg tags)
+* add `leadingDashes` option for front-matter output

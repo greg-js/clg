@@ -51,7 +51,8 @@ var defaults = {
     cat: 'category',
     t: 'tags',
     tag: 'tags',
-    f: 'filter'
+    f: 'filter',
+    m: 'metadata'
   },
   default: {
     help: false,
@@ -69,7 +70,8 @@ var defaults = {
     asset: null,
     tags: null,
     category: null,
-    filter: null
+    filter: null,
+    metadata: null
   }
 };
 
