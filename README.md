@@ -97,19 +97,21 @@ Here's what happens when you run `clg new`:
       "dir": "source/_posts",
       "metadata": {
         "category": "blog",
-        "tags": ""
+        "tags": "",
+        "id": ""
       },
       "assetDir": "true",
-      "extension": "md"
+      "extension": "md",
+      "saveAs": "id"
     },
     "draft": "source/_drafts"
   }
 }
 ```
 
-Adding the above to a project's root dir will allow you to do a `clg new post "Hello World"`. A `hello-world.md` file will then get dropped into `./source/_posts`. It will contain some `yaml` metadata with a `title` (Hello World) and a date property, as well as `category: blog` and `tags: `. It will also create an asset folder (a folder by the same name as the slug to hold images and the like). Finally, the new file will open automatically in your favorite editor.
+Adding the above to a project's root dir will allow you to do a `clg new post "Hello World" -m "id:hello"`. A `hello.md` file will then get dropped into `./source/_posts`. It will contain some `yaml` metadata with a `title` (Hello World), an `id` (hello) and a date property, as well as `category: blog` and `tags: `. It will also create an asset folder (a folder by the same name as the slug to hold images and the like). Finally, the new file will open automatically in your favorite editor.
 
-You can also pass in metadata on the command line like this:
+You can pass in more metadata on the command line like this:
 
 ```
 clg new post "Title of my post" --metadata "category:something,id:12345"
@@ -125,6 +127,8 @@ Options:
 - **metadata**: some extra metadata you might want to add on creation
 - **assetDir**: (boolean, defaults to false) if true, an empty directory will be created in `dir` by the same name as the slugized title
 - **extension**: (string, defaults to 'md') a file extension for your new file
+- **saveAs**: (string, defaults to 'title') the prop to use for the filename
+- **noLeadingDashes**: (boolean, defaults to false) if true, no leading dashes will be added to the new asset's front matter (for compatibility with certain static site generators)
 
 ### `clg rename`
 
@@ -174,7 +178,7 @@ These are currently the default settings:
     "octopress",
     "wintersmith"
   ],
-  "showDate": true,
+  "showProp": "date",
   "filterProp": null
 }
 ```
@@ -184,7 +188,7 @@ You can overwrite (use a string, separated by whitespace or commas) or add to (u
 - `sourceDirs`: An array (or comma-or-whitespace separated string) of top-level directories you want to edit files in. For example, you may want to add `layouts` or `partials` here if you want to use `clg` to edit files in those directories.
 - `extensions`: The filetypes to look for
 - `supported`: `clg` will error out unless it detects any of these in the project's `package.json` or `Gemfile.lock`
-- `showDate`: (boolean, defaults to true) if true, show the date in the display menu
+- `showProp`: Besides the title, a secondary prop can be shown in the display menu and which one is set here (by default, this is set to 'date')
 - `filterProp`: when defined, it includes the value of the `filterProp` frontmatter in your searches (by default, it looks only in the title)
 
 Here's an example of a project's `.clg.json`, which will make it work on any Node or Ruby project and look exclusively in the `layouts` directory for `ejs`, `md` and `markdown` files. It will also give you a `clg new article <title>` command to drop a new file in `./blog/posts`.

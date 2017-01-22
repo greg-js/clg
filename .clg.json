@@ -17,6 +17,6 @@
     "octopress",
     "wintersmith"
   ],
-  "showDate": true,
+  "showProp": "date",
   "filterProp": null
 }
