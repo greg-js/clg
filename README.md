@@ -101,6 +101,7 @@ Here's what happens when you run `clg new`:
         "id": ""
       },
       "assetDir": "true",
+      "postInAssetDir": "true",
       "extension": "md",
       "saveAs": "id"
     },
@@ -126,6 +127,7 @@ Options:
 - **dir**: the location of the folder where you want to drop your new files
 - **metadata**: some extra metadata you might want to add on creation
 - **assetDir**: (boolean, defaults to false) if true, an empty directory will be created in `dir` by the same name as the slugized title
+- **postInAssetDir**: (boolean, defaults to false) if true, and assetDir is true, then new post is created as `index.${extension}` inside asset directory
 - **extension**: (string, defaults to 'md') a file extension for your new file
 - **saveAs**: (string, defaults to 'title') the prop to use for the filename
 - **noLeadingDashes**: (boolean, defaults to false) if true, no leading dashes will be added to the new asset's front matter (for compatibility with certain static site generators)
